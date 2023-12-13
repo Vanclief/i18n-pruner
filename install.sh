@@ -4,6 +4,8 @@ set -e
 echo Installing i18n-pruner...
 
 TARGET_DIR="$HOME/.i18n-pruner/bin"
+TARGET_DIR_BIN="$TARGET_DIR/i18n-pruner"
+
 SERVER="https://github.com/Vanclief/i18n-pruner/raw/master/bin"
 
 # Detect the platform (similar to $OSTYPE)
@@ -32,22 +34,41 @@ fi
 
 # Download the appropriate binary
 echo "Downloading $SERVER/$FILENAME..."
-curl -# -L "${SERVER}/${FILENAME}" -o "${TARGET_DIR}/i18n-pruner"
-chmod +x "${TARGET_DIR}/i18n-pruner"
-echo "Installed under ${TARGET_DIR}/i18n-pruner"
+curl -# -L "${SERVER}/${FILENAME}" -o "${TARGET_DIR_BIN}"
+chmod +x "${TARGET_DIR_BIN}"
+echo "Installed under ${TARGET_DIR_BIN}"
 
-# Update PATH depending on the shell
-if [[ "${SHELL}" == *"zsh"* ]]; then
-	SHELL_PROFILE="$HOME/.zshrc"
-elif [[ "${SHELL}" == *"bash"* ]]; then
-	SHELL_PROFILE="$HOME/.bashrc"
-else
-	echo "Shell not supported. Please add the line 'export PATH=\"\$HOME/.i18n-pruner/bin:\$PATH\"' to your shell profile manually."
+# Store the correct profile file (i.e. .profile for bash or .zshenv for ZSH).
+case $SHELL in
+*/zsh)
+	PROFILE=${ZDOTDIR-"$HOME"}/.zshenv
+	PREF_SHELL=zsh
+	;;
+*/bash)
+	PROFILE=$HOME/.bashrc
+	PREF_SHELL=bash
+	;;
+*/fish)
+	PROFILE=$HOME/.config/fish/config.fish
+	PREF_SHELL=fish
+	;;
+*/ash)
+	PROFILE=$HOME/.profile
+	PREF_SHELL=ash
+	;;
+*)
+	echo "could not detect shell, manually add ${TARGET_DIR_BIN} to your PATH."
 	exit 1
+	;;
+esac
+
+# Only add if it isn't already in PATH.
+if [[ ":$PATH:" != *":${TARGET_DIR_BIN}:"* ]]; then
+	# Add the directory to the path and ensure the old PATH variables remain.
+	echo >>$PROFILE && echo "export PATH=\"\$PATH:$TARGET_DIR_BIN\"" >>$PROFILE
 fi
 
-echo 'export PATH="$HOME/.i18n-pruner/bin:$PATH"' >>${SHELL_PROFILE}
-source ${SHELL_PROFILE}
+echo && echo "Detected your preferred shell is ${PREF_SHELL} and added i18n-pruner to PATH. Run 'source ${PROFILE}' or start a new terminal session to use i18n-pruner."
 
 # Confirmation
 echo "i18n-pruner successfully installed!"
