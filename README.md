@@ -1,9 +1,5 @@
 # i18n-pruner
 
-Simple utility for optimizing JSON files for i18n including duplicate detection
-
-## Intro
-
 **i18n-pruner** its intended to be used for JSON files that are used for i18n.
 It receives as input two json files: `source` and `destination`.
 
@@ -20,12 +16,20 @@ Optionally:
 
 ## Usage
 
+Simple run:
+
 `i18n-pruner -s en.json -d es.json`
 
-`-s | --source` is the path to the source file
-`-d | --destination` is the path to the destination file
-`-r | --read-only` is a flag that will prevent the program from saving changes and will only list the duplicate values
-`-t | --translate` the language to translate the missing values to
+Translate missing values to spanish:
+
+`i18n-pruner -s en.json -d es.json -t Spanish`
+
+Arguments
+
+- `-s | --source` is the path to the source file
+- `-d | --destination` is the path to the destination file
+- `-r | --read-only` is a flag that will prevent the program from saving changes and will only list the duplicate values
+- `-t | --translate` the language to translate the missing values to
 
 ## Instalation
 
