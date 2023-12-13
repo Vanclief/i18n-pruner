@@ -14,6 +14,10 @@ It will:
 - It will make sure that the `destination` file is not missing any key from
   the `source` file, if it does it will add them with an empty string as value
 
+Optionally:
+
+- Translate missing values using ChatGPT
+
 ## Usage
 
 `i18n-pruner -s en.json -d es.json`
@@ -21,6 +25,7 @@ It will:
 `-s | --source` is the path to the source file
 `-d | --destination` is the path to the destination file
 `-r | --read-only` is a flag that will prevent the program from saving changes and will only list the duplicate values
+`-t | --translate` the language to translate the missing values to
 
 ## Instalation
 
