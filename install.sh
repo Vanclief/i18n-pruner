@@ -4,7 +4,7 @@ set -e
 echo Installing i18n-pruner...
 
 TARGET_DIR="$HOME/.i18n-pruner/bin"
-SERVER="https://github.com/Vanclief/i18n-pruner/bin"
+SERVER="https://github.com/Vanclief/i18n-pruner/raw/master/bin"
 
 # Detect the platform (similar to $OSTYPE)
 OS="$(uname)"
@@ -31,9 +31,10 @@ if [[ ! -e "${TARGET_DIR}" ]]; then
 fi
 
 # Download the appropriate binary
-echo "Downloading $FILENAME..."
-curl -# -L "${SERVER}/${FILENAME}" -o "${TARGET_DIR}/${FILENAME}"
-chmod +x "${TARGET_DIR}/${FILENAME}"
+echo "Downloading $SERVER/$FILENAME..."
+curl -# -L "${SERVER}/${FILENAME}" -o "${TARGET_DIR}/i18n-pruner"
+chmod +x "${TARGET_DIR}/i18n-pruner"
+echo "Installed under ${TARGET_DIR}/i18n-pruner"
 
 # Update PATH depending on the shell
 if [[ "${SHELL}" == *"zsh"* ]]; then
