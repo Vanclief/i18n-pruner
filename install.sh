@@ -65,7 +65,7 @@ esac
 # Only add if it isn't already in PATH.
 if [[ ":$PATH:" != *":${TARGET_DIR_BIN}:"* ]]; then
 	# Add the directory to the path and ensure the old PATH variables remain.
-	echo >>$PROFILE && echo "export PATH=\"\$PATH:$TARGET_DIR_BIN\"" >>$PROFILE
+	echo >>$PROFILE && echo "export PATH=\"\$PATH:$TARGET_DIR\"" >>$PROFILE
 fi
 
 echo && echo "Detected your preferred shell is ${PREF_SHELL} and added i18n-pruner to PATH. Run 'source ${PROFILE}' or start a new terminal session to use i18n-pruner."
